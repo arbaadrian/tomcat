@@ -17,4 +17,5 @@ steps:
    args: ['beta', 'run', 'deploy', 'tomcat', '--image', 'gcr.io/$PROJECT_ID/tomcat:latest', '--region', 'europe-west1', '--platform', 'managed', '--allow-unauthenticated']
 images:
  - 'gcr.io/$PROJECT_ID/tomcat'
-
+options:
+  logging: CLOUD_LOGGING_ONLY
