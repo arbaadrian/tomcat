@@ -31,13 +31,23 @@ jobs:
     #     docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} example-app/
     #     docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
         
+    # - name: Deploy to Cloud Run
+    #   id: deploy
+    #   uses: google-github-actions/deploy-cloudrun@v0.4.0
+    #   with:
+    #     service: ${{ env.SERVICE }}
+    #     image: gcr.io/aa-cks-prep-env/tomcat
+    #     region: ${{ env.REGION }}
+
     - name: Deploy to Cloud Run
       id: deploy
-      uses: google-github-actions/deploy-cloudrun@v0.4.0
-      with:
-        service: ${{ env.SERVICE }}
-        image: gcr.io/aa-cks-prep-env/tomcat
-        region: ${{ env.REGION }}
+      run: |
+        gcloud run deploy tomcat \
+          --region us-east1 \
+          --image gcr.io/${{ secrets.GCP_PROJECT }}/tomcat \
+          --platform managed \
+          --allow-unauthenticated \
+          --project ${{ secrets.GCP_PROJECT }}
 
     - name: Show Output
       run: echo ${{ steps.deploy.outputs.url }}
