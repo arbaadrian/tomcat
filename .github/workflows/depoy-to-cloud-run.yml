@@ -1,12 +1,15 @@
 on:
   push:
     branches:
+      - devalop
+  pull_request:
+    branches:
       - master
 
 name: Build and Deploy a Container
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT }}
-  SERVICE: tomcat
+  # SERVICE: tomcat
   REGION: us-east1
 
 jobs:
@@ -49,5 +52,5 @@ jobs:
           --allow-unauthenticated \
           --project ${{ secrets.GCP_PROJECT }}
 
-    - name: Show Output
-      run: echo ${{ steps.deploy.outputs.url }}
+    # - name: Show Output
+    #   run: echo ${{ steps.deploy.outputs.url }}
